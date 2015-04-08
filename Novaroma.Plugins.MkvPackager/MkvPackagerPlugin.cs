@@ -39,17 +39,17 @@ namespace Novaroma.Plugins.MkvPackager
             var directory = Path.GetDirectoryName(media.FilePath);
             if (string.IsNullOrEmpty(directory)) return;
 
-            var mkvPackageDirectory = Directory.CreateDirectory(Path.Combine(directory, "MkvPackageContent"));
+            var tempPath = Path.GetTempPath();
             var subtitleFilePath = Directory.GetFiles(directory).FirstOrDefault(Helper.IsSubtitleFile);
             if (string.IsNullOrEmpty(subtitleFilePath)) return;
             var subtitleFileName = Path.GetFileName(subtitleFilePath);
 
 
-            new FileInfo(media.FilePath).MoveTo(Path.Combine(mkvPackageDirectory.FullName, mediafileName));
-            new FileInfo(subtitleFilePath).MoveTo(Path.Combine(mkvPackageDirectory.FullName, subtitleFileName));
+            new FileInfo(media.FilePath).MoveTo(Path.Combine(tempPath, mediafileName));
+            new FileInfo(subtitleFilePath).MoveTo(Path.Combine(tempPath, subtitleFileName));
 
-            var mediaFilePathNew = Path.Combine(mkvPackageDirectory.FullName, mediafileName);
-            var subtitleFilePathNew = Path.Combine(mkvPackageDirectory.FullName, subtitleFileName);
+            var mediaFilePathNew = Path.Combine(tempPath, mediafileName);
+            var subtitleFilePathNew = Path.Combine(tempPath, subtitleFileName);
 
             MkvMerge(mediaFilePathNew, subtitleFilePathNew, outputPath);
 
@@ -59,7 +59,6 @@ namespace Novaroma.Plugins.MkvPackager
 
             File.Delete(mediaFilePathNew);
             File.Delete(subtitleFilePathNew);
-            Directory.Delete(mkvPackageDirectory.FullName);
         }
 
         private void MkvMerge(string videoInputPath, string subtitleInputPath, string mkvOutputPath) {

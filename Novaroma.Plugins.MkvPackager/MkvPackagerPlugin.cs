@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Novaroma.Interface.EventHandler;
 using Novaroma.Interface.Model;
 using Novaroma.Model;
@@ -62,7 +63,10 @@ namespace Novaroma.Plugins.MkvPackager
         }
 
         private void MkvMerge(string videoInputPath, string subtitleInputPath, string mkvOutputPath) {
-            var mkvMergeExePath = Path.Combine(Environment.CurrentDirectory, "mkvmerge.exe");
+            var pluginDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            if (string.IsNullOrEmpty(pluginDirectory)) return;
+
+            var mkvMergeExePath = Path.Combine(pluginDirectory, "mkvmerge.exe");
             var process = new Process();
             var startInfo = new ProcessStartInfo {
                 WindowStyle = ProcessWindowStyle.Hidden,

@@ -30,7 +30,7 @@ namespace Novaroma.Plugins.MkvPackager
         private void MkvPackage(IDownloadable media) {
             var outputPath = Path.ChangeExtension(media.FilePath, "mkv");
 
-            if (string.IsNullOrEmpty(media.FilePath) || File.Exists(media.FilePath)) return;
+            if (string.IsNullOrEmpty(media.FilePath) || !File.Exists(media.FilePath)) return;
 
             var mediafileName = Path.GetFileName(media.FilePath);
             if (string.IsNullOrEmpty(mediafileName)) return;

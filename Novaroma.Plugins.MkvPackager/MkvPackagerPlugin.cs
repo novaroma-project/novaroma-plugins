@@ -52,7 +52,7 @@ namespace Novaroma.Plugins.MkvPackager
 
             MkvMerge(mediaFilePathNew, subtitleFilePathNew, outputPath);
 
-            media.FilePath = mediaFilePathNew;
+            media.FilePath = outputPath;
             media.BackgroundDownload = false;
             media.SubtitleDownloaded = false;
 
